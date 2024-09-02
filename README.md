@@ -33,11 +33,11 @@ langchain
 **使用 TCP 进行通讯的部署流程：**
 0. (建议)新建 conda 环境
     ```
-    conda create -n robochain python=3.11
+    conda create -n llm_plan_robot python=3.11
     ```
 1. 克隆本仓库到本地
     ```
-    git clone https://github.com/NoneJou072/robochain.git
+    git clone https://github.com/Gchaojian/llm_plan_robot 
     ```
 2. 安装相关依赖
 
@@ -48,8 +48,7 @@ langchain
     ```
 2. 克隆本仓库到工作空间
     ```
-    git clone https://github.com/NoneJou072/robochain.git
-    (optional) mv robochain src
+    git clone https://github.com/Gchaojian/llm_plan_robot
    ```
 3. 安装相关依赖
     ```
