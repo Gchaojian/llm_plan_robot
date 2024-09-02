@@ -1,0 +1,75 @@
+2024-07-02 14:57:19.833 | DEBUG    | api.routes.chat:create_chat_completion:56 - ==== request ====
+{'model': 'medical-chat', 'frequency_penalty': 0.0, 'function_call': None, 'functions': None, 'logit_bias': None, 'logprobs': False, 'max_tokens': 2048, 'n': 1, 'presence_penalty': 0.0, 'response_format': None, 'seed': None, 'stop': [], 'temperature': 0.1, 'tool_choice': None, 'tools': None, 'top_logprobs': None, 'top_p': 1.0, 'user': None, 'stream': False, 'repetition_penalty': 1.03, 'typical_p': None, 'watermark': False, 'best_of': 1, 'ignore_eos': False, 'use_beam_search': False, 'stop_token_ids': [], 'skip_special_tokens': True, 'spaces_between_special_tokens': True, 'min_p': 0.0, 'include_stop_str_in_output': False, 'length_penalty': 1.0, 'guided_json': None, 'guided_regex': None, 'guided_choice': None, 'guided_grammar': None, 'guided_decoding_backend': None, 'prompt_or_messages': [{'content': "\n你是一个助手，帮助我控制机器人。\n\n当我要求你做某事时，你应该给我提供能够通过使用已准备好的函数来完成任务的 Python 代码。\n\n你只能使用我为你定义的函数，不要自己声明或定义任何函数，比如 def main()。\n\n你不得使用任何其他可能存在的假设函数或库。\n\n你可以使用来自 math 和 numpy 等库的简单 Python 函数。\n\n如果你不知道答案或无法理解命令，直接说你不知道，不要编造。\n\n你需要生成相应代码解释（每一个函数）。\n\n均使用中文回答，除函数代码。\n\n\n# 场景-1, 药液配制:\n你正在一个制药平台工作，那里有一个双臂机器人，末端装有一个两指夹持器，还有一个工作台上放置有多种不同的药液原料, 有“葡萄糖“、“荧光蛋白“等原液，你需要将它们分别放置到配药点完成不同药液的配置。 现在你应该听从我的命令，控制机械臂完成任务。\n\n这里有一些你可以用来命令共融机器人配药的功能函数：\n\nrobot.initialize_robot() - 初始化机器人的连接，让机器人归位到初始位置，以及其他必要的设置.\n\nrobot.grab_pipette(start_position, pipette_position) - 机器人抓取移液枪，第一个参数“start_position“表示机器人现处于的位置，第二个参数“pipette_position“表示不同大小的移液枪位置,它们都是type ndarray类型.\n\nrobot.attach_tip(pipette_position, tip_position) - 机器人使用移液枪套枪头,第一个参数“pipette_position“表示移液枪（无枪头）起始位置，第二个参数“tip_position”表示枪头位置，不同大小的移液枪对应不同大小的枪头.\n\nrobot.aspirate_liquid(medical_position) - 机器人使用带枪头的移液枪取药剂原液,第二个参数“medical_position“表示不同药剂的原液.\n\nrobot.transfer_to_mix_point(medical_position, pharmaceuticals_position) - 转移至配药点，第一个参数“medical_position“表示初始位置，第二个参数“pharmaceuticals_position“表示配药点位置.\n\nrobot.dispose_tip(start_position, waste_position) - 枪头回收，第一个参数“start_position“表示机器人现处于的位置，第二个参数“waste_position“表示废物回收位置.\n\nrobot.shake() - 机器人振荡药剂.\n\nrobot.dispense_to_dish(start_position, end_position) - 机器人取成品药液到目标位置,第一个参数“start_position“表示机器人现处于的位置，第二个参数“end_position“表示成品药剂放置位置，包括储存和检测两个位置.\n\nrobot.complete_task() - 完成配药任务，机器人归位.\n\n---\n\n这里是你可以遵循的回答案例:\n\nHuman: 开始配药!\nYou: \n```python\nrobot.initialize_robot()\n```\n\n\nIf you want to let the robot grab or pick up an object, You need to follow the following process: \n1. grab the specified object.\n2. called `reset_robot()` func to reset to initial pose.\n\nThe units are calculated in meters. If centimeters are used, they need to be converted to meters. \nAlmostly, move above... or move up... means you need let the robotic gripper move positive direction along the z-axis.\npose means the position and quaternion, the quaternion expressed in 'w,x,y,z'.\n\nAfter grabed something, if you want to let the robot put the object a specified pose, You need to follow the following process: \n1. Get and calculate the target pose where the object is to be placed.\n2. Move the gripper to the target pose.\n3. Open the gripper.\nHere is an example for you, if you want to put the object down 10cm to the front of the green block, you need first get the pose of green block, and \nthen calculate the target pose such as `target_pos = green_pos + np.array([.1, .0, .0])`, it means the position 10cm in front of the block. Finally\nmove to this target pose and open the gripper.\nUse the above context to answer the user's question and perform the user's command.\n-----------\nHuman: 帮我配置蛋白质\nYou:", 'role': 'user'}], 'echo': False}
+INFO:     127.0.0.1:60002 - "POST /v1/chat/completions HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/home/jqr/data/gcj/robochain-main/local_server/api-for-open-llm/api/templates/base.py", line 47, in convert_messages_to_ids
+    token_ids = self._convert_messages_to_ids(
+  File "/home/jqr/data/gcj/robochain-main/local_server/api-for-open-llm/api/templates/base.py", line 81, in _convert_messages_to_ids
+    raise NotImplementedError
+NotImplementedError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/jqr/anaconda3/envs/llama3/lib/python3.10/site-packages/uvicorn/protocols/http/httptools_impl.py", line 399, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+  File "/home/jqr/anaconda3/envs/llama3/lib/python3.10/site-packages/uvicorn/middleware/proxy_headers.py", line 70, in __call__
+    return await self.app(scope, receive, send)
+  File "/home/jqr/anaconda3/envs/llama3/lib/python3.10/site-packages/fastapi/applications.py", line 1054, in __call__
+    await super().__call__(scope, receive, send)
+  File "/home/jqr/anaconda3/envs/llama3/lib/python3.10/site-packages/starlette/applications.py", line 123, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/jqr/anaconda3/envs/llama3/lib/python3.10/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/home/jqr/anaconda3/envs/llama3/lib/python3.10/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/home/jqr/anaconda3/envs/llama3/lib/python3.10/site-packages/starlette/middleware/cors.py", line 85, in __call__
+    await self.app(scope, receive, send)
+  File "/home/jqr/anaconda3/envs/llama3/lib/python3.10/site-packages/starlette/middleware/exceptions.py", line 65, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/jqr/anaconda3/envs/llama3/lib/python3.10/site-packages/starlette/_exception_handler.py", line 64, in wrapped_app
+    raise exc
+  File "/home/jqr/anaconda3/envs/llama3/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/jqr/anaconda3/envs/llama3/lib/python3.10/site-packages/starlette/routing.py", line 756, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/jqr/anaconda3/envs/llama3/lib/python3.10/site-packages/starlette/routing.py", line 776, in app
+    await route.handle(scope, receive, send)
+  File "/home/jqr/anaconda3/envs/llama3/lib/python3.10/site-packages/starlette/routing.py", line 297, in handle
+    await self.app(scope, receive, send)
+  File "/home/jqr/anaconda3/envs/llama3/lib/python3.10/site-packages/starlette/routing.py", line 77, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/jqr/anaconda3/envs/llama3/lib/python3.10/site-packages/starlette/_exception_handler.py", line 64, in wrapped_app
+    raise exc
+  File "/home/jqr/anaconda3/envs/llama3/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/jqr/anaconda3/envs/llama3/lib/python3.10/site-packages/starlette/routing.py", line 72, in app
+    response = await func(request)
+  File "/home/jqr/anaconda3/envs/llama3/lib/python3.10/site-packages/fastapi/routing.py", line 278, in app
+    raw_response = await run_endpoint_function(
+  File "/home/jqr/anaconda3/envs/llama3/lib/python3.10/site-packages/fastapi/routing.py", line 191, in run_endpoint_function
+    return await dependant.call(**values)
+  File "/home/jqr/data/gcj/robochain-main/local_server/api-for-open-llm/api/routes/chat.py", line 58, in create_chat_completion
+    iterator_or_completion = await run_in_threadpool(engine.create_chat_completion, params)
+  File "/home/jqr/anaconda3/envs/llama3/lib/python3.10/site-packages/starlette/concurrency.py", line 42, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func, *args)
+  File "/home/jqr/anaconda3/envs/llama3/lib/python3.10/site-packages/anyio/to_thread.py", line 56, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+  File "/home/jqr/anaconda3/envs/llama3/lib/python3.10/site-packages/anyio/_backends/_asyncio.py", line 2177, in run_sync_in_worker_thread
+    return await future
+  File "/home/jqr/anaconda3/envs/llama3/lib/python3.10/site-packages/anyio/_backends/_asyncio.py", line 859, in run
+    result = context.run(func, *args)
+  File "/home/jqr/data/gcj/robochain-main/local_server/api-for-open-llm/api/engine/hf.py", line 381, in create_chat_completion
+    else self._create_chat_completion(params)
+  File "/home/jqr/data/gcj/robochain-main/local_server/api-for-open-llm/api/engine/hf.py", line 303, in _create_chat_completion
+    for output in self._generate(params):
+  File "/home/jqr/data/gcj/robochain-main/local_server/api-for-open-llm/api/engine/hf.py", line 102, in _generate
+    inputs = self.template.convert_messages_to_ids(
+  File "/home/jqr/data/gcj/robochain-main/local_server/api-for-open-llm/api/templates/base.py", line 56, in convert_messages_to_ids
+    token_ids = self.apply_chat_template(
+  File "/home/jqr/data/gcj/robochain-main/local_server/api-for-open-llm/api/templates/base.py", line 90, in apply_chat_template
+    return self.tokenizer.apply_chat_template(
+  File "/home/jqr/anaconda3/envs/llama3/lib/python3.10/site-packages/transformers/tokenization_utils_base.py", line 1837, in apply_chat_template
+    raise ValueError(
+ValueError: Tools should either be a JSON schema, or a callable function with type hints and a docstring suitable for auto-conversion to a schema.

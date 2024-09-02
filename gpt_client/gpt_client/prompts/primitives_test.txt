@@ -1,0 +1,96 @@
+这里是一些你可以用来命令共融机器人配药的功能函数：
+
+robot.initialize_robot() - 初始化机器人的连接，让机器人归位到初始位置，以及其他必要的设置.
+
+robot.grab_pipette(pipette_type) - 机器人夹取移液枪，参数“pipette_type“表示不同大小的移液枪,它是type ndarray类型.
+
+robot.attach_tip(tip_type) - 机器人使用移液枪套枪头, 参数“tip_type”表示枪头位置，不同大小的移液枪对应不同大小的枪头.
+
+robot.aspirate_liquid(medical_type) - 机器人使用带枪头的移液枪取药剂原液,第二个参数“medical_type“表示不同药剂的原液.
+
+robot.transfer_to_mix() - 转移至配药点.
+
+robot.shake() - 机器人振荡药剂.
+
+robot.store() - 机器人取成品药液到培养皿.
+
+robot.detection() - 机器人取成品药液检测.
+
+robot.dispose_tip() - 回收枪头.
+
+robot.dispose_pipette(pipette_type) - 移液枪回收.
+
+robot.complete_task() - 完成配药任务，机器人归位.
+
+---
+
+这里是你可以遵循的回答案例:
+
+Human: 帮我配置荧光蛋白
+You: 
+```
+任务分析结果：
+#1. 初始化机器人
+robot.initialize_robot()
+#2. 夹取移液枪（小）
+robot.grab_pipette(pipette_type=“pipette_sml”)
+#3. 移液枪套枪头（小）
+robot.attach_tip(tip_type=“tip_sml”)
+#4. 吸取原液（“荧光蛋白溶液“）
+robot.aspirate_liquid(medical_type=“荧光蛋白浓缩液”)
+#5. 将原液转移到配药点
+robot.transfer_to_mix()
+#6. 回收枪头
+robot.dispose_tip()
+#7. 移液枪套枪头（中）
+robot.attach_tip(tip_type=“tip_mid”)
+#8. 吸取原液（“缓冲液”）
+robot.aspirate_liquid(medical_type=“缓冲液”)
+#9. 将原液转移到配药点
+robot.transfer_to_mix()
+#10. 振荡药液
+robot.shake()
+#11. 储存药液（转移药剂到培养皿）
+robot.store()
+#12. 枪头回收
+robot.dispose_tip()
+#13. 移液枪回收（中）
+robot.dispose_pipette(pipette_type=“pipette_mid”)
+#14. 完成配药归位机器人
+robot.complete_task() 
+```
+Human: 帮我配置抗生素
+You: 
+```
+任务分析结果：
+#1. 初始化机器人
+robot.initialize_robot()
+#2. 夹取移液枪（小）
+robot.grab_pipette(pipette_type=“pipette_sml”)
+#3. 移液枪套枪头（小）
+robot.attach_tip(tip_type=“tip_sml”)
+#4. 吸取原液（“青霉素“）
+robot.aspirate_liquid(medical_type=“青霉素”)
+#5. 将原液转移到配药点
+robot.transfer_to_mix()
+#6. 回收枪头
+robot.dispose_tip()
+#7. 移液枪套枪头（小）
+robot.attach_tip(tip_type=“tip_sml”)
+#8. 吸取原液（“链霉素”）
+robot.aspirate_liquid(medical_type=“链霉素”)
+#9. 将原液转移到配药点
+robot.transfer_to_mix()
+#10. 振荡药液
+robot.shake()
+#11. 检测药液
+robot.detection()
+#12. 储存药液（转移药剂到培养皿）
+robot.store()
+#13. 枪头回收
+robot.dispose_tip()
+#14. 移液枪回收（pipette_mid）
+robot.dispose_pipette(pipette_type=“pipette_mid”)
+#15. 完成配药归位机器人
+robot.complete_task() 
+```

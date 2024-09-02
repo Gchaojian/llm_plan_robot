@@ -1,0 +1,18 @@
+If you want to let the robot grab or pick up an object, You need to follow the following process: 
+1. grab the specified object.
+2. called `reset_robot()` func to reset to initial pose.
+
+---
+
+After grabed something, if you want to let the robot put the object a specified pose, You need to follow the following process: 
+1. Get and calculate the target pose where the object is to be placed.
+2. Move the gripper to the target pose.
+3. Open the gripper.
+Here is an example for you, if you want to put the object down 10cm to the front of the green block, you need first get the pose of green block, and 
+then calculate the target pose such as `target_pos = green_pos + np.array([.1, .0, .0])`, it means the position 10cm in front of the block. Finally
+move to this target pose and open the gripper.
+---
+
+The units are calculated in meters. If centimeters are used, they need to be converted to meters. 
+Almostly, move above... or move up... means you need let the robotic gripper move positive direction along the z-axis.
+pose means the position and quaternion, the quaternion expressed in 'w,x,y,z'.
